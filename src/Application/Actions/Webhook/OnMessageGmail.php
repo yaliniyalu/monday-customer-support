@@ -7,6 +7,7 @@ use App\Domain\Chat\Provider\Gmail;
 use App\Service\ChatAccountService;
 use App\Service\MondayBoardService;
 use App\Service\MondayTriggerService;
+use App\Service\NotificationClient;
 use Base64Url\Base64Url;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
@@ -65,8 +66,8 @@ class OnMessageGmail extends Action
             'message' => $messages
         ];
 
-        $client = new \WebSocket\Client("ws://127.0.0.1:8089/?type=server&auth_token=" . $_ENV['MY_SIGNING_SECRET']);
-        $client->send(json_encode($response));
+        $client = new NotificationClient();
+        $client->send($response);
         $client->close();
 
         return $this->respondWithData([], 200);

@@ -8,6 +8,7 @@ use App\Domain\Chat\Provider\Outlook;
 use App\Service\ChatAccountService;
 use App\Service\ChatProviderService;
 use App\Service\MondayTriggerService;
+use App\Service\NotificationClient;
 use Base64Url\Base64Url;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -47,7 +48,7 @@ class OnMessageOutlook extends Action
 
         $values = $this->getFormData()['value'];
 
-        $client = new \WebSocket\Client("ws://127.0.0.1:8089/?type=server&auth_token=" . $_ENV['MY_SIGNING_SECRET']);
+        $client = new NotificationClient();
 
         foreach ($values as $body) {
             $subId = $body['subscriptionId'];
@@ -104,7 +105,7 @@ class OnMessageOutlook extends Action
                 'message' => $messages
             ];
 
-            $client->send(json_encode($response));
+            $client->send($response);
         }
 
 
