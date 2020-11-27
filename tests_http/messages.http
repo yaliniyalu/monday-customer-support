@@ -1,0 +1,161 @@
+
+## List Messages
+GET http://{{ host }}/board/{{ board_id }}/customer/{{ customer_id }}/chat/{{ chat_id }}/message?unread=0
+Accept: application/json
+Authorization: Bearer {{ token }}
+
+###
+
+## List Messages
+GET http://{{ host }}/board/{{ board_id }}/customer/{{ customer_id }}/chat/{{ chat_id }}/message?unread=1
+Accept: application/json
+Authorization: Bearer {{ token }}
+
+###
+
+## Reply Message
+POST http://{{ host }}/board/{{ board_id }}/customer/{{ customer_id }}/chat/{{ chat_id }}/message/send
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{ token }}
+
+{
+  "message": "Hello Test 2 <b>Replying</b><br>>NextLine<br>>next"
+}
+
+###
+
+## Send Message
+POST http://{{ host }}/board/{{ board_id }}/customer/{{ customer_id }}/message/send
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{ token }}
+
+{
+  "message": "Hello Test Sending <b>not Replying</b>\nNextLine\nnext"
+}
+
+###
+
+## Message - Mark as Read
+POST http://{{ host }}/board/{{ board_id }}/customer/{{ customer_id }}/message/{{ unread_message_id }}/mark/read
+Accept: application/json
+Authorization: Bearer {{ token }}
+
+###
+
+## Message - Mark Multiple as Read
+POST http://{{ host }}/board/{{ board_id }}/customer/{{ customer_id }}/message/mark/read
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{ token }}
+
+{
+"ids": [
+  "AQMkADAwATMwMAItMDAAZDEtZmQzYi0wMAItMDAKAEYAAAP5hd6azhLMTrq2Rd3tPPLGBwBHEL9RdG5LQLDbvf1AdDPiAAACAQwAAABHEL9RdG5LQLDbvf1AdDPiAAPKt6WXAAAA",
+  "AQMkADAwATMwMAItMDAAZDEtZmQzYi0wMAItMDAKAEYAAAP5hd6azhLMTrq2Rd3tPPLGBwBHEL9RdG5LQLDbvf1AdDPiAAACAQwAAABHEL9RdG5LQLDbvf1AdDPiAAPKt6WYAAAA",
+  "AQMkADAwATMwMAItMDAAZDEtZmQzYi0wMAItMDAKAEYAAAP5hd6azhLMTrq2Rd3tPPLGBwBHEL9RdG5LQLDbvf1AdDPiAAACAQwAAABHEL9RdG5LQLDbvf1AdDPiAAPKt6WZAAAA"
+]
+}
+
+###
+
+
+## Login
+POST http://127.0.0.1:8088/board/751976528/generate/token
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MDU1MzE4OTIsImRhdCI6eyJjbGllbnRfaWQiOiIwMjIzZTk5Y2MxNTQ1YmVhYzIwM2JmOWFmNDE4NjZlZCIsInVzZXJfaWQiOjE2MTkyMDE5LCJhY2NvdW50X2lkIjo3MTM2OTMwLCJzbHVnIjoieWFsaW5pIiwiYXBwX2lkIjoyMTk3OSwiaW5zdGFsbF9pZCI6NDQzM319.nUjyFF4TYIz-IZ2-5CXkJYK5IaeP1B2m5yAHsGS99qg
+
+###
+
+##
+POST http://127.0.0.1:8088/webhook/gmail/message
+Accept: application/json
+
+{
+"message": {
+"data":"eyJlbWFpbEFkZHJlc3MiOiJzYW1hcmpiZW5AZ21haWwuY29tIiwiaGlzdG9yeUlkIjoxNTE3NDI2fQ==",
+"messageId":"1665034380122747",
+"message_id":"1665034380122747",
+"publishTime":"2020-11-02T18:58:20.967Z",
+"publish_time":"2020-11-02T18:58:20.967Z"
+},
+"subscription":"projects\/monday--project\/subscriptions\/gmail-subscription",
+"decoded":{"emailAddress":"samarjben@gmail.com","historyId":1517426}
+}
+###
+
+POST http://127.0.0.1:8088/monday/trigger/message-received/new-thread/subscribe
+
+{
+  "payload": {
+    "subscriptionId": 123,
+    "inputFields": {
+      "boardId": 751976528
+    },
+    "webhookUrl": "https://api.monday.com/trigger/123",
+    "recipeId": 123456
+  }
+}
+
+###
+
+POST http://127.0.0.1:8088/monday/trigger/message-received/new-thread/unsubscribe
+
+{
+  "payload": {
+    "webhookId": 1
+  }
+}
+
+###
+
+POST http://127.0.0.1:8088/monday/action/create-item
+
+{
+  "payload": {
+    "inputFields" : {
+      "boardId": 751976528,
+      "userId": 16192019,
+      "subject": "Hello there",
+      "chatId": "qwerty",
+      "email": "samar@accordex.in",
+      "name": "Acc Samr",
+      "emailColumnId": "email_1",
+      "chatColumnId": "text9"
+    }
+  }
+}
+
+###
+
+GET http://127.0.0.1:8088/
+
+###
+
+# curl "http://127.0.0.1:8088/board/751976528/generate/token" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0" -H "Accept: application/json, text/plain, */*" -H "Accept-Language: en-US,en;q=0.5" --compressed -H "Content-Type: application/json;charset=utf-8" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MDYxNTIzNDMsImRhdCI6eyJjbGllbnRfaWQiOiIwMjIzZTk5Y2MxNTQ1YmVhYzIwM2JmOWFmNDE4NjZlZCIsInVzZXJfaWQiOjE2MTkyMDE5LCJhY2NvdW50X2lkIjo3MTM2OTMwLCJzbHVnIjoieWFsaW5pIiwiYXBwX2lkIjoyMTk3OSwiaW5zdGFsbF9pZCI6MTcxMzR9fQ.NUGxClMfEnmuEG3LyQxMPxkjxDJTD3sW_TcXiTZT5Vw" -H "Origin: http://127.0.0.1:8080" -H "Connection: keep-alive" -H "Referer: http://127.0.0.1:8080/" --data-raw "{}"
+POST http://127.0.0.1:8088/board/751976528/generate/token
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MDYxNTIzNDMsImRhdCI6eyJjbGllbnRfaWQiOiIwMjIzZTk5Y2MxNTQ1YmVhYzIwM2JmOWFmNDE4NjZlZCIsInVzZXJfaWQiOjE2MTkyMDE5LCJhY2NvdW50X2lkIjo3MTM2OTMwLCJzbHVnIjoieWFsaW5pIiwiYXBwX2lkIjoyMTk3OSwiaW5zdGFsbF9pZCI6MTcxMzR9fQ.NUGxClMfEnmuEG3LyQxMPxkjxDJTD3sW_TcXiTZT5Vw
+
+{}
+
+###
+
+# curl "http://127.0.0.1:8088/board/751976528/generate/token" -X OPTIONS -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0" -H "Accept: */*" -H "Accept-Language: en-US,en;q=0.5" --compressed -H "Access-Control-Request-Method: POST" -H "Access-Control-Request-Headers: authorization,content-type" -H "Referer: http://127.0.0.1:8080/" -H "Origin: http://127.0.0.1:8080" -H "Connection: keep-alive"
+OPTIONS http://127.0.0.1:8088/board/751976528/generate/token
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: authorization,content-type
+Referer: http://127.0.0.1:8080/
+Origin: http://127.0.0.1:8080
+Connection: keep-alive
+
+###
+
+
+
+
+
+

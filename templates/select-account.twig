@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Account</title>
+
+    <style>
+        body {
+            font-family: Arial, serif;
+            text-align: center;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        ul.accounts a {
+            text-decoration: none;
+            padding: 15px;
+            width: auto;
+            border-radius: 50px;
+            display: block;
+            border: 1px solid #008080;
+            color: #008080;
+        }
+
+        ul.accounts a:hover {
+            background: #008080;
+            color: white;
+            border: 1px solid #008080;
+        }
+
+        ul.accounts {
+            margin: 15px;
+            padding: 0;
+            width: 50%;
+        }
+
+        ul.accounts li {
+            margin: 5px;
+        }
+
+        .accounts-container {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h3>Select Account for Board {{ board_name }} [{{ board_id }}]</h3>
+    <i>Selected account will be linked to your board. One board can only contain one email.</i>
+
+    {% if linked_account %}
+        <p>The account <b>{{ linked_account.id }}</b> has been added already. But the token has been expired or revoked.</p>
+    {% endif %}
+
+    <div class="accounts-container">
+        <ul class="accounts">
+            {% if linked_account %}
+                <li><a href="/oauth/{{ linked_account.type }}/redirect?state={{ monday_token }}&id={{ linked_account.id }}">{{ linked_account.id|e }}</a></li>
+            {% endif %}
+
+            <li><a href="/oauth/google/redirect?state={{ monday_token }}&prompt=select_account">Add Gmail Account</a></li>
+            <li>
+                <a href="/oauth/microsoft/redirect?state={{ monday_token }}">Add Outlook Account</a>
+                <p>Add/Set Label not supported</p>
+            </li>
+        </ul>
+    </div>
+
+</div>
+</body>
+</html>
